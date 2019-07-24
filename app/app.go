@@ -1,6 +1,8 @@
 package app
 
-import "fmt"
+import (
+    "fmt"
+)
 
 func Start() {
     if err := parseArgs(); err != nil {

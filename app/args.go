@@ -1,9 +1,9 @@
 package app
 
 import (
+    "fmt"
     "flag"
     "errors"
-    "fmt"
 )
 
 const (
