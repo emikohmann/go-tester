@@ -8,11 +8,12 @@ import (
 type Payload map[string]interface{}
 
 type Config struct {
-    BaseURL     string    `json:"baseUrl"`
-    Endpoints   []string  `json:"endpoints"`
-    Methods     []string  `json:"methods"`
-    Payloads    []Payload `json:"payloads"`
-    RateLimiter int       `json:"rate_limiter"`
+    BaseURL             string    `json:"baseUrl"`
+    Endpoints           []string  `json:"endpoints"`
+    Methods             []string  `json:"methods"`
+    Payloads            []Payload `json:"payloads"`
+    RateLimiter         int       `json:"rate_limiter"`
+    FilterResponseCodes []int     `json:"filter_response_codes"`
 }
 
 func LoadConfig(filename string) (*Config, error) {
