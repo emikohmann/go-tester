@@ -40,3 +40,16 @@ CREATE TABLE `potentials` (
     ENGINE = InnoDB,
   PARTITION p12 VALUES IN (12)
     ENGINE = InnoDB);
+
+SELECT *
+FROM potentials;
+
+SELECT
+  request_method,
+  request_url,
+  response_status,
+  count(*)
+FROM potentials
+GROUP BY request_method, request_url, response_status;
+
+TRUNCATE TABLE potentials;

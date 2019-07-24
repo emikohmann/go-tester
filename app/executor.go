@@ -49,6 +49,7 @@ func (config *Config) Execute() error {
         }
     }()
 
+    fmt.Println("Building URLS..")
     domain := config.BuildURLs()
 
     var group sync.WaitGroup
@@ -56,17 +57,33 @@ func (config *Config) Execute() error {
 
     limiter := make(chan bool, config.RateLimiter)
 
-    for _, url := range domain {
+    fmt.Println("Executing exploits...")
+
+    for i, url := range domain {
         limiter <- true
+
+        if i > 0 {
+            fmt.Printf("\r%c[2K", 27)
+        }
+
         exploit := &Exploit{
             URL:      url,
             Methods:  config.Methods,
             Payloads: config.Payloads,
         }
+
+        fmt.Print(exploit.Methods, " >> ", exploit.URL)
+
         go exploit.AsyncExecute(&group, limiter, out)
     }
 
+    fmt.Println()
+
+    fmt.Println("Receiving results...")
+
     group.Wait()
+
+    fmt.Println("Finishing execution...")
 
     time.Sleep(1 * time.Second)
 
@@ -111,10 +128,10 @@ func (exploit *Exploit) Execute() ExploitPotentials {
 func (potential *Potential) Match(responseCodes []int) bool {
     for _, responseCode := range responseCodes {
         if potential.ResponseStatus == responseCode {
-            return true
+            return false
         }
     }
-    return false
+    return true
 }
 
 func (potential *Potential) Save() error {

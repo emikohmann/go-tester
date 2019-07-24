@@ -4,17 +4,23 @@ import (
     "fmt"
 )
 
+const (
+    errLoadingConfig     = "Error loading config"
+    errExecutingConfig   = "Error executing config"
+    infExecutionSucceded = "Execution succeded"
+)
+
 func Start(argConfig string) {
     config, err := LoadConfig(argConfig)
     if err != nil {
-        fmt.Println("Error loading config", err)
+        fmt.Println(errLoadingConfig, err)
         return
     }
 
     if err := config.Execute(); err != nil {
-        fmt.Println("Error executing config", err)
+        fmt.Println(errExecutingConfig, err)
         return
     }
 
-    fmt.Println("Execution succeded")
+    fmt.Println(infExecutionSucceded)
 }
