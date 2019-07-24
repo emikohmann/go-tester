@@ -10,7 +10,7 @@ func Start() {
         return
     }
 
-    config, err := loadConfig(args[argConfig])
+    config, err := LoadConfig(args[argConfig])
     if err != nil {
         fmt.Println("Error loading config", err)
         return

@@ -9,10 +9,9 @@ import (
 )
 
 type Request struct {
-    Method   string
-    BaseURL  string
-    Endpoint string
-    Payload  map[string]interface{}
+    Method  string
+    URL     string
+    Payload map[string]interface{}
 }
 
 type Response struct {
@@ -23,41 +22,34 @@ type Response struct {
 
 func (request *Request) Do() (*Response, apierrors.ApiError) {
     const (
-        apiFormat           = "%s%s"
         errNilResponse      = "nil response received from %s"
         errInvalidMethod    = "invalid method"
         errExecutingRequest = "error executing request"
-    )
-
-    full := fmt.Sprintf(
-        apiFormat,
-        request.BaseURL,
-        request.Endpoint,
     )
 
     var response *rest.Response
 
     switch request.Method {
     case http.MethodGet:
-        response = rest.Get(full)
+        response = rest.Get(request.URL)
     case http.MethodHead:
-        response = rest.Head(full)
+        response = rest.Head(request.URL)
     case http.MethodPost:
-        response = rest.Post(full, request.Payload)
+        response = rest.Post(request.URL, request.Payload)
     case http.MethodPut:
-        response = rest.Put(full, request.Payload)
+        response = rest.Put(request.URL, request.Payload)
     case http.MethodPatch:
-        response = rest.Patch(full, request.Payload)
+        response = rest.Patch(request.URL, request.Payload)
     case http.MethodDelete:
-        response = rest.Delete(full)
+        response = rest.Delete(request.URL)
     case http.MethodOptions:
-        response = rest.Options(full)
+        response = rest.Options(request.URL)
     default:
         return nil, apierrors.NewBadRequestApiError(errInvalidMethod)
     }
 
     if response == nil {
-        err := errors.New(fmt.Sprintf(errNilResponse, full))
+        err := errors.New(fmt.Sprintf(errNilResponse, request.URL))
         return nil, apierrors.NewInternalServerApiError(errExecutingRequest, err)
     }
 

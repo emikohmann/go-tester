@@ -8,13 +8,14 @@ import (
 type Payload map[string]interface{}
 
 type Config struct {
-    BaseURL   string    `json:"baseUrl"`
-    Endpoints []string  `json:"endpoints"`
-    Methods   []string  `json:"methods"`
-    Payloads  []Payload `json:"payloads"`
+    BaseURL     string    `json:"baseUrl"`
+    Endpoints   []string  `json:"endpoints"`
+    Methods     []string  `json:"methods"`
+    Payloads    []Payload `json:"payloads"`
+    RateLimiter int       `json:"rate_limiter"`
 }
 
-func loadConfig(filename string) (*Config, error) {
+func LoadConfig(filename string) (*Config, error) {
     bytes, err := ioutil.ReadFile(filename)
     if err != nil {
         return nil, err
