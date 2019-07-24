@@ -46,10 +46,10 @@ FROM potentials;
 
 SELECT
   request_method,
-  request_url,
   response_status,
   count(*)
 FROM potentials
-GROUP BY request_method, request_url, response_status;
+GROUP BY request_method, response_status
+ORDER BY count(*) DESC;
 
 TRUNCATE TABLE potentials;
