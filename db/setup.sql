@@ -41,9 +41,6 @@ CREATE TABLE `potentials` (
   PARTITION p12 VALUES IN (12)
     ENGINE = InnoDB);
 
-SELECT *
-FROM potentials;
-
 SELECT
   request_method,
   response_status,
@@ -52,4 +49,6 @@ FROM potentials
 GROUP BY request_method, response_status
 ORDER BY count(*) DESC;
 
-TRUNCATE TABLE potentials;
+SELECT *
+FROM potentials
+WHERE response_status LIKE '2%%';
