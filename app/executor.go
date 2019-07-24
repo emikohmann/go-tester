@@ -2,8 +2,8 @@ package app
 
 import (
     "sync"
-    "net/http"
     "time"
+    "net/http"
 )
 
 type Exploit struct {
