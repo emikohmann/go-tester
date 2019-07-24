@@ -4,13 +4,8 @@ import (
     "fmt"
 )
 
-func Start() {
-    if err := parseArgs(); err != nil {
-        fmt.Println("Error parsing args", err)
-        return
-    }
-
-    config, err := LoadConfig(args[argConfig])
+func Start(argConfig string) {
+    config, err := LoadConfig(argConfig)
     if err != nil {
         fmt.Println("Error loading config", err)
         return

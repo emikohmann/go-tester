@@ -1,9 +1,9 @@
 package app
 
 import (
-    "fmt"
     "sync"
     "net/http"
+    "time"
 )
 
 type Exploit struct {
@@ -25,10 +25,38 @@ type ExploitPotentials []Potential
 
 func (config *Config) Execute() error {
     out := make(chan ExploitPotentials)
+
     go func() {
         for {
-            exploitPotentials := <-out
-            fmt.Println(exploitPotentials) // Change
+            <-out
+            // exploitPotentials := <-out
+
+            // for _, potential := range exploitPotentials {
+            // const (
+            //     logFormat = "=====================" +
+            //         "=====================" +
+            //         "=====================" +
+            //         "===================\n" +
+            //         "RequestMethod:   %s\n" +
+            //         "RequestURL:      %s\n" +
+            //         "RequestPayload:  %s\n" +
+            //         "ResponseStatus:  %d\n" +
+            //         "ResponseHeaders: %s\n" +
+            //         "ResponsePayload: %s"
+            // )
+
+            // fmt.Println(
+            //     fmt.Sprintf(
+            //         logFormat,
+            //         potential.RequestMethod,
+            //         potential.RequestURL,
+            //         potential.RequestPayload,
+            //         potential.ResponseStatus,
+            //         potential.ResponseHeaders,
+            //         potential.ResponsePayload,
+            //     ),
+            // )
+            // }
         }
     }()
 
@@ -51,6 +79,8 @@ func (config *Config) Execute() error {
 
     group.Wait()
 
+    time.Sleep(1 * time.Second)
+
     return nil
 }
 
@@ -71,6 +101,7 @@ func (exploit *Exploit) Execute() ExploitPotentials {
             }
             response, apiErr := request.Do()
             if apiErr != nil {
+                // handle apiErr
                 continue
             }
             potentials = append(potentials,
