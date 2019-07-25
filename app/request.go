@@ -29,6 +29,8 @@ func (request *Request) Do() (*Response, apierrors.ApiError) {
 
     var response *rest.Response
 
+    // Change timeout
+
     switch request.Method {
     case http.MethodGet:
         response = rest.Get(request.URL)

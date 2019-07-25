@@ -99,6 +99,7 @@ func (exploit *Exploit) AsyncExecute(group *sync.WaitGroup, limiter chan bool, o
 func (exploit *Exploit) Execute() ExploitPotentials {
     potentials := make(ExploitPotentials, 0)
     for _, method := range exploit.Methods {
+        // Change payload validation
         for _, payload := range exploit.Payloads {
             request := &Request{
                 Method:  method,
